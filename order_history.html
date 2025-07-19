@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Order History</title>
+    <link rel="stylesheet" href="order_history.css">
+</head>
+<body>
+    <div class="order-history-container">
+        <h2>Your Order History</h2>
+        <div id="order-list">Loading orders...</div>
+    </div>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+    fetch('get_orders.php', {
+        credentials: "include"
+    })
+    .then(res => res.text())
+    .then(text => {
+        let data;
+        try {
+            data = JSON.parse(text);
+        } catch (e) {
+            console.error("Invalid JSON from server:", text);
+            document.getElementById("order-list").innerHTML = "Something went wrong. Server returned invalid data.";
+            return;
+        }
+
+        const orderList = document.getElementById("order-list");
+
+        if (!data.success) {
+            orderList.innerHTML = `<p style="color:red;">${data.message}</p>`;
+            return;
+        }
+
+        if (!data.orders || data.orders.length === 0) {
+            orderList.innerHTML = "<p>No past orders found.</p>";
+            return;
+        }
+
+        const table = document.createElement("table");
+        table.innerHTML = `
+            <tr>
+                <th>Order ID</th>
+                <th>Order Name</th>
+                <th>Delivery Date</th>
+                <th>Time Slot</th>
+                <th>Amount (in Rs)</th>
+                <th>Payment Status</th>
+                <th>Delivery Status</th>
+                <th>Delivery Address</th>
+                <th>Contact Details</th>
+            </tr>
+        `;
+
+        data.orders.forEach(order => {
+            const row = document.createElement("tr");
+
+            // Determine row color
+            if (order.payment_status.toLowerCase() !== 'paid') {
+                row.style.backgroundColor = "#ffcccc"; // Red for unpaid
+            } else if (order.delivery_status.toLowerCase() === 'pending') {
+                row.style.backgroundColor = "#fff5cc"; // Yellow for pending delivery
+            } else if (order.delivery_status.toLowerCase() === 'delivered') {
+                row.style.backgroundColor = "#ccffcc"; // Green for delivered
+            }
+
+            row.innerHTML = `
+                <td>${order.order_id}</td>
+                <td>${order.name}</td>
+                <td>${order.delivery_date}</td>
+                <td>${order.time_slot}</td>
+                <td>${order.total_amount}</td>
+                <td>${order.payment_status}</td>
+                <td>${order.delivery_status}</td>
+                <td>${order.address} - ${order.pincode}</td>
+                <td>${order.phone}</td>
+            `;
+            table.appendChild(row);
+        });
+
+        orderList.innerHTML = "";
+        orderList.appendChild(table);
+    })
+    .catch(err => {
+        console.error("Fetch error:", err);
+        document.getElementById("order-list").innerHTML = "Failed to load orders.";
+    });
+});
+</script>
+
+
+</body>
+</html>

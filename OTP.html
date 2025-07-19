@@ -1,0 +1,212 @@
+<html>
+<head>
+    <title>OTP Verification</title>
+    <link rel="stylesheet" href="otp_submission.css">
+    <style>
+        .success-message {
+            text-align: center;
+            background-color: #d4edda;
+            border: 2px solid #28a745;
+            padding: 30px;
+            border-radius: 10px;
+            color: #155724;
+            margin-top: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .success-message h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .success-message p {
+            font-size: 18px;
+        }
+
+        .tick {
+            font-size: 50px;
+            color: #28a745;
+            animation: pop 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes pop {
+            0% { transform: scale(0.5); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .continue-btn {
+            display: inline-block;
+            margin-top: 20px;
+            background-color: #28a745;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .continue-btn:hover {
+            background-color: white;
+            color: #28a745;
+            border: 2px solid #28a745;
+        }
+    </style>
+</head>
+<body>
+    <div class="otp-container">
+        <h2>OTP Verification</h2>
+        <p id="email-warning" class="note" style="display: none;">
+            * Please make sure you entered a valid and active email address. If the email doesn't exist, you won't receive the OTP.
+        </p>
+        <form id="otp-form">
+            <input type="email" id="email" placeholder="Enter Email Address" required>
+            <button type="button" id="send-otp-btn"><span>Send OTP</span></button><br><br>
+            <button type="button" id="resend-otp-btn" style="display: none;">Resend OTP (30)</button>
+            <br><br>
+            <input type="text" id="otp" placeholder="Enter 6-digit OTP" required>
+            <button type="submit">Verify OTP</button>
+            <p id="error-message" style="color:red;"></p>
+        </form>
+    </div>
+    
+    <script src="otp_submission.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const otpForm = document.getElementById("otp-form");
+            const emailInput = document.getElementById("email");
+            const otpInput = document.getElementById("otp");
+            const errorMessage = document.getElementById("error-message");
+            const sendOtpBtn = document.getElementById("send-otp-btn");
+            const resendOtpBtn = document.getElementById("resend-otp-btn");
+            const emailWarning = document.getElementById("email-warning");
+
+            let otpSent = false;
+            let countdown = 30;
+
+            function startResendTimer() {
+                resendOtpBtn.classList.remove("enabled");
+                resendOtpBtn.disabled = true;
+                resendOtpBtn.textContent = `Resend OTP (${countdown})`;
+                resendOtpBtn.style.backgroundColor = "#ccc";
+                resendOtpBtn.style.color = "#666";
+                resendOtpBtn.style.cursor = "not-allowed";
+
+                const timer = setInterval(() => {
+                    countdown--;
+                    resendOtpBtn.textContent = `Resend OTP (${countdown})`;
+                    if (countdown <= 0) {
+                        clearInterval(timer);
+                        resendOtpBtn.disabled = false;
+                        resendOtpBtn.textContent = "Resend OTP";
+                        resendOtpBtn.classList.add("enabled");
+                        resendOtpBtn.style.backgroundColor = "#4CAF50";
+                        resendOtpBtn.style.color = "#fff";
+                        resendOtpBtn.style.cursor = "pointer";
+                        countdown = 30;
+                    }
+                }, 1000);
+            }
+
+            function showSpinner(button) {
+    button.disabled = true;
+    button.innerHTML = `<span class="spinner"></span> Sending...`;
+    button.classList.add("loading");
+}
+
+function hideSpinner(button, defaultText = "Send OTP") {
+    button.disabled = false;
+    button.innerHTML = defaultText;
+    button.classList.remove("loading");
+}
+
+function sendOTP(email, isResend = false) {
+    const button = isResend ? resendOtpBtn : sendOtpBtn;
+    showSpinner(button);  // Show spinner while sending
+
+    fetch("send_email_otp.php", {
+        method: "POST",
+        body: new URLSearchParams({ email: email })
+    })
+    .then(res => res.text())
+    .then(response => {
+        if (response.includes("OTP Sent")) {
+            errorMessage.style.color = "green";
+            errorMessage.textContent = isResend ? "OTP resent successfully." : "OTP sent successfully.";
+            startResendTimer();
+            otpSent = true;
+
+            // Enable resend button & show warning
+            sendOtpBtn.disabled = true;
+            resendOtpBtn.style.display = "inline-block";
+            emailWarning.style.display = "block";
+        } else {
+            errorMessage.style.color = "red";
+            errorMessage.textContent = "Failed to send OTP. Please try again.";
+        }
+    })
+    .catch(() => {
+        errorMessage.style.color = "red";
+        errorMessage.textContent = "Network error. Try again.";
+    })
+    .finally(() => {
+        hideSpinner(button, isResend ? "Resend OTP" : "Send OTP"); // Reset button
+        setTimeout(() => {
+            errorMessage.textContent = "";
+        }, 5000);
+    });
+}
+
+
+            resendOtpBtn.addEventListener("click", function () {
+                const email = emailInput.value.trim();
+                if (!/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/.test(email)) {
+                    errorMessage.style.color = "red";
+                    errorMessage.textContent = "Please enter a valid email address.";
+                    return;
+                }
+
+                sendOTP(email, true);
+            });
+
+            otpForm.addEventListener("submit", function (event) {
+                event.preventDefault();
+                const otpValue = otpInput.value.trim();
+                const email = emailInput.value.trim();
+
+                if (!/^\d{6}$/.test(otpValue)) {
+                    errorMessage.style.color = "red";
+                    errorMessage.textContent = "Please enter a valid 6-digit OTP.";
+                    return;
+                }
+
+                fetch("verify_email_otp.php", {
+                    method: "POST",
+                    body: new URLSearchParams({ email: email, otp: otpValue })
+                })
+                .then(res => res.text())
+                .then(response => {
+                    if (response.includes("OTP Verified")) {
+    document.body.innerHTML = `
+        <div class="success-message">
+            <h2>Order Confirmed</h2>
+            <p>Thank you for placing your order with Ezzy Grocery Store.</p>
+            <p>Your payment was successful and your order is now being processed.</p>
+            <a href="homepage.html" class="continue-btn">Continue Shopping</a>
+        </div>
+    `;
+}
+else {
+                        errorMessage.style.color = "red";
+                        errorMessage.textContent = "Invalid or expired OTP.";
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

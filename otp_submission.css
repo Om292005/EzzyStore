@@ -1,0 +1,179 @@
+/* OTP Submission Page CSS (Updated to match cart/homepage style) */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color :#c8efd1;
+    padding: 20px;
+    color: #333;
+}
+
+.otp-container {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 100%;
+    max-width: 400px;
+    border: 3px solid #2e8b57;
+}
+
+h2 {
+    margin-bottom: 10px;
+    color: #2e8b57;
+    font-weight: 600;
+}
+
+p {
+    margin-bottom: 15px;
+    color: #555;
+    font-size: 15px;
+}
+
+.note {
+    font-size: 14px;
+    color: #555;
+    background: #fff8c4;
+    padding: 8px 12px;
+    border-radius: 6px;
+    margin-top: 10px;
+    border-left: 4px solid #ffd500;
+}
+
+input {
+    width: 100%;
+    height: 42px;
+    border: 1.5px solid #ccc;
+    border-radius: 30px;
+    padding: 0 15px;
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+input::placeholder {
+    color: #aaa;
+}
+
+button {
+    width: 100%;
+    border: none;
+    border-radius: 30px;
+    background: #2e8b57;
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    padding: 12px 0;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button:hover {
+    background-color: white;
+    color: #2e8b57;
+    border: 2px solid #2e8b57;
+}
+
+#resend-otp-btn {
+    background: #ccc;
+    color: #666;
+    cursor: not-allowed;
+    transition: all 0.3s ease;
+}
+
+#resend-otp-btn.enabled {
+    background: #2e8b57 !important;
+    color: #fff !important;
+    cursor: pointer !important;
+}
+
+
+#resend-otp-btn.enabled:hover {
+    background: white !important;
+    color: #2e8b57 !important;
+    border: 2px solid #2e8b57 !important;
+}
+
+#error-message {
+    margin-top: 10px;
+    color: red;
+    font-size: 14px;
+}
+
+.success-message {
+    text-align: center;
+    padding: 40px;
+    background-color: #e6fff1;
+    border: 3px solid #2e8b57 !important;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    max-width: 500px;
+    width: 90%;
+    margin: 100px auto;
+}
+
+.success-message h2 {
+    color: #2e8b57;
+    font-size: 30px;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.success-message p {
+    font-size: 18px;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+.spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-right: 8px;
+    border: 2px solid rgba(255, 255, 255, 0.6);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    vertical-align: middle;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+button.loading {
+    opacity: 0.8;
+    cursor: wait;
+}
+
+.continue-btn {
+    display: inline-block;
+    background-color: #2e8b57 !important;
+    color: white;
+    text-decoration: none;
+    padding: 12px 28px;
+    border-radius: 30px;
+    font-weight: 600;
+    transition: background 0.3s ease;
+    font-size: 16px;
+}
+
+.continue-btn:hover {
+    background-color: white !important;
+    color: #2e8b57 !important;
+    border:  2px solid #2e8b57 !important;
+}

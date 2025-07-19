@@ -1,0 +1,67 @@
+<html>
+    <head>
+        <title>Details for Delivery</title>
+
+        <link href="Details For Checkout.css" rel="stylesheet" type="text/css" />
+        
+        <link rel="shortcut icon" type="image/jpg" href="images/images/fav-icon.png"/>
+
+        <script src="Details For Checkout.js"></script>
+
+    </head> 
+
+    <body>
+
+        <div class="contact-in">
+
+            <div class="contact-map">
+
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d224345.83923192866!2d77.06889754725779!3d28.52758200617606!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x52c2b7494e204dce!2sNew%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1642929688022!5m2!1sen!2sin" width="100%" height="auto" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+
+            </div>
+
+            <div class="contact-form">
+
+                <h1 align = 'center'>
+                    
+                    Details For Delivery
+                
+                </h1>
+
+                <div id="error_message"></div>
+
+                <form class = 'address_form' action="submit_delivery.php" method="POST">
+
+                    <input type="text" placeholder="Name" class="contact-form-txt" id = 'name' name="name" required/>
+
+                    <input type="text" placeholder="Address" class="contact-form-txt" id = 'address' name="address" required/>
+
+                    <input type="text" placeholder="Email-ID" class="contact-form-txt" id = 'email' name="email" required/>
+
+                    <input type="text" placeholder="Pincode" class="contact-form-txt" id = 'pincode' name="pincode" required/>
+
+                    <input type="text" placeholder="Contact No." class="contact-form-txt" id = 'phone' name="phone" required/>
+
+                    <input type="date" class="contact-form-txt" id="date" name="date" required min="<?= date('Y-m-d') ?>" />
+
+                    <select class="contact-form-txt" id="time" name="time" required>
+                        <option value="">Select Time Slot</option>
+                        <option>08:00 AM - 10:00 AM</option>
+                        <option>10:00 AM - 12:00 PM</option>
+                        <option>12:00 PM - 14:00 PM</option>
+                        <option>14:00 PM - 16:00 PM</option>
+                        <option>16:00 PM - 18:00 PM</option>
+                        <option>18:00 PM - 20:00 PM</option>
+                    </select>
+
+                    <button type="submit" class="contact-form-btn" id = 'submitbtn'>Submit</button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </body>
+
+</html>

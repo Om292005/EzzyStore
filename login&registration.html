@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Login / Sign Up - Ezzy Grocery Store</title>
+    <link type="text/css" rel="stylesheet" href="login&registration.css">
+    <script src="https://kit.fontawesome.com/bfe54b35a2.js" crossorigin="anonymous"></script>
+    <link rel="shortcut icon" type="image/jpg" href="images/images/fav-icon.png" />
+</head>
+
+<body>
+
+    <section class="imp">
+        <section>
+            <!-- LOGIN FORM -->
+            <div class="login show" id="one">
+                <div class="textbox slide-left2">
+                    <div class="head">
+                        <h1>Sign In to EGS</h1>
+                        <ul>
+                            <li><a href="https://www.facebook.com/login/"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="https://accounts.google.com/"><i class="fab fa-google-plus-g"></i></a></li>
+                            <li><a href="https://www.linkedin.com/login"><i class="fab fa-linkedin-in"></i></a></li>
+                        </ul>
+                        <h3>or use your E-mail ID</h3>
+                    </div>
+
+                    <form action="login.php" method="POST">
+    <div class="input-group">
+        <input type="email" name="email" placeholder="EMAIL" required>
+        <span class="email-validation-icon" id="email-icon-login"></span>
+    </div>
+    <div class="input-group">
+        <input type="password" name="password" placeholder="PASSWORD" required>
+    </div>
+    <p id="login-error" style="color: red; font-size: 14px; text-align: center;"></p>
+    <button type="submit" class="sign_in_btn">SIGN IN</button>
+</form>
+
+                </div>
+            </div>
+
+            <div class="sec show" id="two">
+                <div class="textbox slide-left">
+                    <h1>Not a member?</h1>
+                    <p>Sign up and start shopping.</p>
+                    <button id="b1" class="prompt_sign_up">SIGN UP</button>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="sec hide" id="three">
+                <div class="textbox slide-left">
+                    <h1>Already a member?</h1>
+                    <p>Login to keep shopping.</p>
+                    <button id="b2" class="prompt_sign_in">SIGN IN</button>
+                </div>
+            </div>
+
+            <!-- SIGNUP FORM -->
+            <div class="login hide" id="four">
+                <div class="textbox slide-right">
+                    <div class="head">
+                        <h1>Create Account</h1>
+                        <ul>
+                            <li><a href="https://www.facebook.com/login/"><i class="fab fa-facebook-f"></i></a></li>
+                            <li><a href="https://accounts.google.com/"><i class="fab fa-google-plus-g"></i></a></li>
+                            <li><a href="https://www.linkedin.com/login"><i class="fab fa-linkedin-in"></i></a></li>
+                        </ul>
+                        <h3>or use your E-mail ID</h3>
+                    </div>
+
+                    <form action="signup.php" method="POST">
+    <div class="input-group">
+        <input type="text" name="name" placeholder="NAME" required>
+    </div>
+    <div class="input-group">
+        <input type="email" name="email" placeholder="EMAIL" required>
+        <span class="email-validation-icon" id="email-icon-signup"></span> 
+    </div>
+    <div class="input-group">
+        <input type="password" name="password" placeholder="PASSWORD" required>
+    </div>
+    <div class="input-group">
+        <input type="text" name="phone" placeholder="PHONE NO. (optional)">
+    </div>
+    <p id="signup-error" style="color: red; font-size: 14px; text-align: center;"></p>
+    <button type="submit" class="sign_up_btn">SIGN UP</button>
+</form>
+
+                </div>
+            </div>
+        </section>
+    </section>
+
+    <script src="login&registration.js"></script>
+</body>
+
+</html>
